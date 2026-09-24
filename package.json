@@ -1,0 +1,12 @@
+{
+  "name": "durka2",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "dev": "node --env-file-if-exists=.env scripts/dev.mjs"
+  }
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#151714"><meta name="description" content="Дуркометр. Разбор переписок без розовых очков.">
+  <title>Дуркометр · проверка реальности</title>
+  <link rel="icon" href="/icon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header><a class="brand" href="/" aria-label="Дуркометр, главная"><span class="brand-icon">д.</span> дуркометр<span class="version">2.0</span></a><div class="header-right"><span class="private"><i></i> частная лаборатория</span><button id="logout" class="text-button" hidden>Выйти ↗</button></div></header>
+    <main>
+      <div class="eyebrow"><span class="dash"></span> НЕЗАВИСИМАЯ ПРОВЕРКА РЕАЛЬНОСТИ</div>
+      <section class="hero"><div><h1>Тебе показалось.<br><span>Или всё-таки нет?</span></h1><p>Скинь переписку. Разберём, где аргументы,<br class="desktop"> где манипуляции, а где просто кто-то устал.</p></div><div class="hero-stamp" aria-hidden="true"><span>ОТДЕЛ КОНТРОЛЯ</span><strong>ну и<br>дичь.</strong><span>ЗДРАВОГО СМЫСЛА</span></div></section>
+
+      <section id="login-panel" class="login-panel" hidden aria-labelledby="login-title"><div><span class="micro">ДОСТУП ПО ПАРОЛЮ</span><h2 id="login-title">Свои? Заходите.</h2><p>Введи пароль этой лаборатории.</p></div><form id="login-form"><label for="password">Пароль доступа</label><div class="login-row"><input id="password" name="password" type="password" autocomplete="current-password" required maxlength="256" placeholder="Тот самый пароль"><button class="primary" id="login-submit">Войти ↗</button></div><p id="login-error" class="error" role="alert"></p></form></section>
+      <div id="boot" class="boot" role="status">Проверяем доступ…</div>
+
+      <div id="workspace" hidden>
+        <div class="workspace-grid">
+          <section class="card input-card" aria-labelledby="input-title"><div class="card-top"><h2 id="input-title"><span class="step">01</span> Материал дела</h2><button id="demo" class="text-button">Попробовать пример ↗</button></div>
+            <label class="sr-only" for="conversation">Текст переписки и контекст</label><textarea id="conversation" maxlength="16000" placeholder="Вставь переписку или опиши ситуацию…&#10;&#10;Кто что сказал, что произошло и что тебя смущает."></textarea><div class="text-bottom"><span>Текст, скриншоты или всё вместе</span><span id="char-count">0 / 16 000</span></div>
+            <div id="dropzone" class="dropzone" role="button" tabindex="0" aria-label="Добавить скриншоты"><div class="upload-icon" aria-hidden="true">↥</div><div><strong>Кидай скрины сюда</strong><span>или выбери файлы · Ctrl+V тоже работает</span></div><span class="file-types">PNG / JPG / WEBP</span></div><input id="file-input" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden><div id="image-list" class="image-list"></div><p class="upload-note">До 4 изображений. Длинные скрины лучше разделить на части.</p>
+            <div class="settings"><div class="field"><label for="model">Кто разбирается</label><select id="model"></select></div><div class="field effort-field"><label for="effort">Глубина разбора</label><select id="effort"></select></div></div><p id="model-note" class="model-note"></p>
+            <div class="tone-row"><span>Тон вердикта</span><div class="segmented" role="group" aria-label="Тон вердикта"><button type="button" data-tone="calm" aria-pressed="false">Спокойно</button><button type="button" data-tone="spicy" aria-pressed="true">С перцем <span aria-hidden="true">✳</span></button></div></div>
+            <button id="analyze" class="primary analyze"><span>Проверить на дичь</span><span aria-hidden="true">↗</span></button><p id="progress" class="progress" role="status" hidden></p><p id="error" class="error" role="alert"></p><button id="reload-models" class="text-button" hidden>Обновить список моделей ↻</button>
+            <p class="privacy"><span aria-hidden="true">▣</span> API-ключ хранится на сервере. Материал уйдёт выбранному LLM-провайдеру; приложение не сохраняет историю.</p>
+          </section>
+
+          <section class="card result-card" aria-labelledby="result-heading"><div class="card-top"><h2 id="result-heading"><span class="step">02</span> Заключение</h2><span class="live-label">БЕЗ РОЗОВЫХ ОЧКОВ</span></div>
+            <div id="empty-result" class="empty-result"><div class="dial" aria-hidden="true"><div class="dial-mark">?</div><span>ИНДЕКС ДИЧИ</span></div><h3>Сначала факты.<br>Потом «ну и дичь».</h3><p>Здесь будет разбор по цитатам,<br>другое объяснение и вариант ответа.</p><div class="empty-tags"><span>логика</span><span>контекст</span><span>здравый смысл</span></div></div>
+            <div id="result" hidden aria-live="polite"><div class="score-row"><div><span class="micro">ИНДЕКС ДИЧИ</span><div class="score"><span id="score">0</span><small id="score-outof">/100</small></div></div><span id="confidence" class="confidence"></span></div><meter id="score-meter" min="0" max="100" value="0" aria-label="Индекс дичи"></meter><h3 id="verdict"></h3><p id="summary" class="summary"></p><div class="result-section"><h4>Вещественные доказательства</h4><div id="evidence"></div></div><div class="alternative result-section"><h4>А если посмотреть иначе?</h4><p id="alternative"></p></div><div class="reply result-section"><div class="reply-heading"><h4>Что можно ответить</h4><button id="copy" class="text-button">Копировать ↗</button></div><p id="reply"></p></div><p id="missing" class="missing" hidden></p><details id="transcript-details" hidden><summary>Что прочитано на скриншотах</summary><p id="transcript"></p></details><div id="result-meta" class="result-meta"></div><button id="clear" class="text-button clear">Очистить материал и результат ×</button></div>
+            <div class="result-footnote">Разбираем поведение, не ставим диагнозы.<br>Индекс шуточный. Выводы стоит перепроверять.</div>
+          </section>
+        </div>
+        <div class="principles"><span><b>01.</b> Цитаты вместо ярлыков</span><span><b>02.</b> Контекст имеет значение</span><span><b>03.</b> Ты тоже можешь быть неправ</span></div>
+      </div>
+    </main>
+    <footer><span>ДУРКОМЕТР / 2026</span><span>Немного иронии. Побольше здравого смысла.</span></footer>
+  </div>
+</body>
+</html>
